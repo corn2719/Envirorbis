@@ -39,10 +39,10 @@ def create_gauge_chart(value, min_value=0, max_value=100, title="Gauge Chart", h
 st.set_page_config(layout="wide")
 
 # 최상단 제목, 날짜, 산업진흥원 로고
-title = 'Envirorbis'
+title = '에너지 모니터링 시스템'
 now = datetime.datetime.now()
 today = now.strftime("%Y-%m-%d")
-logo_path = "http://dipa.or.kr/wp-content/uploads/2020/07/logo_v_1000.jpg"  # 경로를 상대경로 또는 웹 경로로 수정
+logo_path = "http://dipa.or.kr/wp-content/uploads/2020/07/logo_h_1000.jpg"  # 경로를 상대경로 또는 웹 경로로 수정
 
 # columns를 통해 가로로 배치
 col1, col2, col3, col4 = st.columns([3, 1, 1, 1], vertical_alignment="center")
