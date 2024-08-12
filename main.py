@@ -114,5 +114,19 @@ data = {
 # DataFrame 생성
 df = pd.DataFrame(data)
 
-# Streamlit 앱에서 DataFrame 출력
-st.dataframe(df, use_container_width=True, hide_index=True)
+# 조건에 따라 색상을 지정하는 함수 정의
+def color_text(val):
+    color = ''
+    if val == '좋음':
+        color = 'green'
+    elif val == '보통':
+        color = 'orange'
+    elif val == '나쁨':
+        color = 'red'
+    return f'color: {color}'
+
+# 데이터프레임에 스타일 적용
+styled_df = df.style.applymap(color_text)
+
+# Streamlit 앱에서 스타일이 적용된 DataFrame 출력
+st.dataframe(styled_df, use_container_width=True, hide_index=True)
