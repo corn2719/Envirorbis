@@ -46,11 +46,11 @@ def create_gauge_chart(value, min_value=0, max_value=100, title="Gauge Chart", h
     st.plotly_chart(fig)
 
 # 박스를 그리는 함수 정의
-def draw_box(title, content, width='100%', height=150, border_color='#007bff', background_color='#f0f8ff', text_color='black', margin_bottom='20px'):
+def draw_box(title, content, width='100%', height=150, border_color='#CACCCB', background_color='#E2E3E5', text_color='black', margin_bottom='10px'):
     return f"""
     <div style="width: {width}px; height: {height}px; border: 2px solid {border_color}; border-radius: 10px; padding: 20px; background-color: {background_color}; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: {margin_bottom};">
         <p style="font-size: 24px; margin: 0;">{title}</p>
-        <p style="font-size: 50px; font-weight: bold; color: {text_color}; margin: 0;">{content}</p>
+        <p style="font-size: 45px; font-weight: bold; color: {text_color}; margin: 0;">{content}</p>
     </div>
     """
 
@@ -113,35 +113,17 @@ with col1:
     create_gauge_chart(75, min_value=0, max_value=100, title="목표달성추이", height=300)
 
 with col2:
-    st.markdown(draw_box('목표치', '3000 KWh', width='100%', height=320, border_color='#007bff', background_color='#f0f8ff', text_color='black', margin_bottom='0px'), unsafe_allow_html=True)
+    st.markdown(draw_box('목표치', '3000 KWh', width='100%', height=310, text_color='black', margin_bottom='0px'), unsafe_allow_html=True)
 
 # 박스를 col3에 표시
 with col3:
-    st.markdown(draw_box('현월', '3100 KWh', width='100%', height=150, border_color='#007bff', background_color='#f0f8ff', text_color='black', margin_bottom='20px'), unsafe_allow_html=True)
-    st.markdown(draw_box('전월대비', '+30%', width='100%', height=150, border_color='#007bff', background_color='#f0f8ff', text_color='red', margin_bottom='0px'), unsafe_allow_html=True)
+    st.markdown(draw_box('현월', '3100 KWh', width='100%', height=150, text_color='black', margin_bottom='10px'), unsafe_allow_html=True)
+    st.markdown(draw_box('전월대비', '+30%', width='100%', height=150, text_color='red', margin_bottom='0px'), unsafe_allow_html=True)
 
 
 with col4:
-    st.markdown(
-        """
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; 
-                    border: 2px solid #007bff; border-radius: 10px; padding: 20px; background-color: #f0f8ff;">
-            <p style="font-size: 24px; margin: 0;">전체 기업 수</p>
-            <p style="font-size: 50px; font-weight: bold; margin: 0;">10개</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-    st.markdown(
-        """
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; 
-                    border: 2px solid #007bff; border-radius: 10px; padding: 20px; background-color: #f0f8ff;">
-            <p style="font-size: 24px; margin: 0;">전체 기업 평균</p>
-            <p style="font-size: 50px; color: black; font-weight: bold; margin: 0;">310 KWh</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown(draw_box('전체 기업 수', '10 개', width='100%', height=150, text_color='black', margin_bottom='10px'), unsafe_allow_html=True)
+    st.markdown(draw_box('전체 기업 평균', '310 KWh', width='100%', height=150, text_color='black', margin_bottom='0px'), unsafe_allow_html=True)
 
 
 
