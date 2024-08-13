@@ -3,6 +3,16 @@ import datetime
 import plotly.graph_objs as go
 import pandas as pd
 
+# data
+# 데이터 준비
+data = {
+    '기업 이름': ['기업 A', '기업 B', '기업 C', '기업 D', '기업 E', '기업 F', '기업 G', '기업 H', '기업 I', '기업 J'],
+    '전월': [7, 3, 6, 1, 2, 6, 4, 7, 2, 5],
+    '현월': [3, 4, 4, 6 ,2, 1, 6 ,7 ,3, 5]
+}
+# DataFrame 생성
+df = pd.DataFrame(data)
+
 
 # 함수 정의
 # 게이지 차트를 그리는 함수 정의
@@ -24,7 +34,7 @@ def create_gauge_chart(value, min_value=0, max_value=100, title="Gauge Chart", h
             ],
             'threshold': {
                 'line': {'color': "black", 'width': 3},
-                'thickness': 1,
+                'thickness': 0.4,
                 'value': value
             }
         }
@@ -34,6 +44,15 @@ def create_gauge_chart(value, min_value=0, max_value=100, title="Gauge Chart", h
 
     # Streamlit에 차트 표시
     st.plotly_chart(fig)
+
+# 박스를 그리는 함수 정의
+def draw_box(title, content, width='100%', height=150, border_color='#007bff', background_color='#f0f8ff', text_color='black', margin_bottom='20px'):
+    return f"""
+    <div style="width: {width}px; height: {height}px; border: 2px solid {border_color}; border-radius: 10px; padding: 20px; background-color: {background_color}; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: {margin_bottom};">
+        <p style="font-size: 24px; margin: 0;">{title}</p>
+        <p style="font-size: 50px; font-weight: bold; color: {text_color}; margin: 0;">{content}</p>
+    </div>
+    """
 
 # layout을 wide로 지정
 st.set_page_config(layout="wide")
@@ -58,7 +77,7 @@ with col1:
             font-weight: bold;
             text-align: left;  /* 좌측 정렬 */
             align-items: flex-end; /* 아래 정렬 */
-            height: 100%; /* 전체 높이 사용 */
+            height:00%; /* 전체 높이 사용 */
         }
         </style>
         """, unsafe_allow_html=True)
@@ -74,7 +93,7 @@ with col3:
             display: flex;
             text-align: right;  /* 우측 정렬 */
             align-items: flex-end; /* 아래 정렬 */
-            height: 100%; /* 전체 높이 사용 */
+            height:00%; /* 전체 높이 사용 */
         }
         </style>
         """, unsafe_allow_html=True)
@@ -89,9 +108,40 @@ with col4:
 ### 
 
 # columns를 통해 가로로 배치
-col1, col2, col3, col4, col5 = st.columns(5)
+col1, col2, col3, col4, col5 = st.columns(5, vertical_alignment="center")
 with col1:
     create_gauge_chart(75, min_value=0, max_value=100, title="목표달성추이", height=300)
+
+with col2:
+    st.markdown(draw_box('목표치', '3000 KWh', width='100%', height=320, border_color='#007bff', background_color='#f0f8ff', text_color='black', margin_bottom='0px'), unsafe_allow_html=True)
+
+# 박스를 col3에 표시
+with col3:
+    st.markdown(draw_box('현월', '3100 KWh', width='100%', height=150, border_color='#007bff', background_color='#f0f8ff', text_color='black', margin_bottom='20px'), unsafe_allow_html=True)
+    st.markdown(draw_box('전월대비', '+30%', width='100%', height=150, border_color='#007bff', background_color='#f0f8ff', text_color='red', margin_bottom='0px'), unsafe_allow_html=True)
+
+
+with col4:
+    st.markdown(
+        """
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; 
+                    border: 2px solid #007bff; border-radius: 10px; padding: 20px; background-color: #f0f8ff;">
+            <p style="font-size: 24px; margin: 0;">전체 기업 수</p>
+            <p style="font-size: 50px; font-weight: bold; margin: 0;">10개</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        """
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; 
+                    border: 2px solid #007bff; border-radius: 10px; padding: 20px; background-color: #f0f8ff;">
+            <p style="font-size: 24px; margin: 0;">전체 기업 평균</p>
+            <p style="font-size: 50px; color: black; font-weight: bold; margin: 0;">310 KWh</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 
 
@@ -100,33 +150,29 @@ st.title('입주기업')
 
 
 # 표 그리기
-# 척도를 어떻게 할까요~
-# 데이터 준비
-data = {
-    '기업 이름 1': ['기업 A', '기업 B', '기업 C', '기업 D', '기업 E'],
-    '전월 1': ['좋음', '좋음', '좋음', '나쁨', '나쁨'],
-    '현월 1': ['보통', '나쁨', '보통', '좋음', '보통'],
-    '기업 이름 2': ['기업 F', '기업 G', '기업 H', '기업 I', '기업 J'],
-    '전월 2': ['보통', '좋음', '나쁨', '보통', '보통'],
-    '현월 2': ['보통', '나쁨', '보통', '좋음', '보통']
-}
+# 데이터프레임을 5행씩 두 개로 나누기
+df_upper = df.iloc[:5, :]
+df_lower = df.iloc[5:, :]
 
-# DataFrame 생성
-df = pd.DataFrame(data)
+col1, col2 = st.columns(2)
 
 # 조건에 따라 색상을 지정하는 함수 정의
-def color_text(val):
-    color = ''
-    if val == '좋음':
-        color = 'green'
-    elif val == '보통':
-        color = 'orange'
-    elif val == '나쁨':
-        color = 'red'
-    return f'color: {color}'
+# 현월 값의 색상 지정 함수 정의
+def color_current_month(row):
+    if row['현월'] < row['전월']:
+        return ['color: black', 'color: black', 'color: green']
+    elif row['현월'] > row['전월']:
+        return ['color: black', 'color: black', 'color: red']
+    else:
+        return ['color: black', 'color: black', 'color: black']
 
 # 데이터프레임에 스타일 적용
-styled_df = df.style.applymap(color_text)
+styled_df_lower = df_lower.style.apply(lambda row: color_current_month(row), axis=1, subset=['기업 이름', '전월', '현월'])
+styled_df_upper = df_upper.style.apply(lambda row: color_current_month(row), axis=1, subset=['기업 이름', '전월', '현월'])
 
-# Streamlit 앱에서 스타일이 적용된 DataFrame 출력
-st.dataframe(styled_df, use_container_width=True, hide_index=True)
+
+with col1:
+    st.dataframe(styled_df_lower, hide_index=True, use_container_width=True)
+
+with col2:
+    st.dataframe(styled_df_upper, hide_index=True, use_container_width=True)
