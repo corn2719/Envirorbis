@@ -5,7 +5,7 @@ import pandas as pd
 from functions import *
 
 # data
-file_path = "/Users/keunwoook/Library/Mobile Documents/com~apple~CloudDocs/Document/Envirorbis/test_data.xlsx"
+file_path = "test_data.xlsx"
 df = pd.read_excel(file_path, header=0)
 
 # 데이터 범주화    
