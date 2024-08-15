@@ -2,10 +2,11 @@ import streamlit as st
 import datetime
 # import plotly.graph_objs as go
 import pandas as pd
+from pytz import timezone
 from functions import *
 
 # data
-file_path = "test_data.xlsx"
+file_path = "/Users/keunwoook/Library/Mobile Documents/com~apple~CloudDocs/Document/Envirorbis/test_data.xlsx"
 df = pd.read_excel(file_path, header=0)
 
 # 데이터 범주화    
@@ -17,7 +18,9 @@ st.set_page_config(layout="wide")
 
 # 최상단 제목, 날짜, 산업진흥원 로고
 title = '에너지 모니터링 시스템'
+kst = timezone('Asia/Seoul')
 now = datetime.datetime.now()
+now = now.astimezone(kst)
 today = now.strftime("%Y-%m-%d")
 logo_path = "http://dipa.or.kr/wp-content/uploads/2020/07/logo_h_1000.jpg"  # 경로를 상대경로 또는 웹 경로로 수정
 
