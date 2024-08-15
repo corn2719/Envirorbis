@@ -1,58 +1,16 @@
 import streamlit as st
 import datetime
-import plotly.graph_objs as go
+# import plotly.graph_objs as go
 import pandas as pd
+from functions import *
 
 # data
-# 데이터 준비
-data = {
-    '기업 이름': ['기업 A', '기업 B', '기업 C', '기업 D', '기업 E', '기업 F', '기업 G', '기업 H', '기업 I', '기업 J'],
-    '전월': [7, 3, 6, 1, 2, 6, 4, 7, 2, 5],
-    '현월': [3, 4, 4, 6 ,2, 1, 6 ,7 ,3, 5]
-}
-# DataFrame 생성
-df = pd.DataFrame(data)
+file_path = "/Users/keunwoook/Library/Mobile Documents/com~apple~CloudDocs/Document/Envirorbis/test_data.xlsx"
+df = pd.read_excel(file_path, header=0)
 
-
-# 함수 정의
-# 게이지 차트를 그리는 함수 정의
-def create_gauge_chart(value, min_value=0, max_value=100, title="Gauge Chart", height=250):
-    # Plotly를 사용하여 게이지 차트 생성
-    fig = go.Figure(go.Indicator(
-        mode="gauge+number",
-        value=value,
-        title={'text': title},
-        gauge={
-            'axis': {'range': [min_value, max_value]},
-            'bar': {'color': "pink"},
-            'steps': [
-                {'range': [min_value, max_value * 0.2], 'color': "red"},
-                {'range': [max_value * 0.2, max_value * 0.4], 'color': "orange"},
-                {'range': [max_value * 0.4, max_value * 0.6], 'color': "yellow"},
-                {'range': [max_value * 0.6, max_value * 0.8], 'color': "lightgreen"},
-                {'range': [max_value * 0.8, max_value], 'color': "green"}
-            ],
-            'threshold': {
-                'line': {'color': "black", 'width': 3},
-                'thickness': 0.4,
-                'value': value
-            }
-        }
-    ))
-    # 레이아웃 설정을 통해 높이 조정
-    fig.update_layout(height=height)
-
-    # Streamlit에 차트 표시
-    st.plotly_chart(fig)
-
-# 박스를 그리는 함수 정의
-def draw_box(title, content, width='100%', height=150, border_color='#CACCCB', background_color='#E2E3E5', text_color='black', margin_bottom='10px'):
-    return f"""
-    <div style="width: {width}px; height: {height}px; border: 2px solid {border_color}; border-radius: 10px; padding: 20px; background-color: {background_color}; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: {margin_bottom};">
-        <p style="font-size: 24px; margin: 0;">{title}</p>
-        <p style="font-size: 45px; font-weight: bold; color: {text_color}; margin: 0;">{content}</p>
-    </div>
-    """
+# 데이터 범주화    
+df['전월'] = df['전월'].apply(categorize_value)
+df['현월'] = df['현월'].apply(categorize_value)
 
 # layout을 wide로 지정
 st.set_page_config(layout="wide")
