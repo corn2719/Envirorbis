@@ -49,7 +49,7 @@ increase_rate = round(100 * (this_month - prev_month) / prev_month, 2)
 mean_usage = round(this_month / n_of_corp, 2)
 
 # columns를 통해 가로로 배치
-col1, col2, col3, col4 = st.columns([3, 1, 1, 1], vertical_alignment="center")
+col1, col2, col3, col5, col4 = st.columns([1, 1, 1, 1, 1], vertical_alignment="center")
 
 # col1의 글씨 크기 설정 및 좌측 정렬
 with col1:
@@ -76,7 +76,7 @@ with col3:
             font-size:35px !important;
             color: black;
             display: flex;
-            text-align: right;  /* 우측 정렬 */
+            text-align: center;  /* 우측 정렬 */
             align-items: flex-end; /* 아래 정렬 */
             height:00%; /* 전체 높이 사용 */
         }
