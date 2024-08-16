@@ -5,10 +5,12 @@ from pytz import timezone
 from functions import *
 
 # layout을 wide로 지정
-st.set_page_config(layout="wide", page_title="EMS")
+st.set_page_config(layout="wide", page_title="용인시산업진흥원 에너지 모니터링시스템 모니용", initial_sidebar_state="collapsed")
 
 # 사이드바에서 파일 업로드
-uploaded_file = st.sidebar.file_uploader("엑셀 파일을 업로드하세요", type=["xlsx"])
+uploaded_file = st.sidebar.file_uploader("엑셀 파일을 업로드하세요", type=["xlsx"], )
+goal_value = st.sidebar.slider("목표값을 입력하세요", min_value=0, max_value=1000, step=10)
+
 
 # 파일이 업로드되었는지 확인
 if uploaded_file is not None:
@@ -25,7 +27,7 @@ else:
     df = pd.DataFrame(data)
 
 # 최상단 제목, 날짜, 산업진흥원 로고
-title = '에너지 모니터링 시스템'
+title = 'moni용'
 kst = timezone('Asia/Seoul')
 now = datetime.datetime.now()
 now = now.astimezone(kst)
@@ -37,7 +39,7 @@ this_month = df['현월'].sum()
 prev_month = df['전월'].sum()
 n_of_corp = len(df['기업 이름'])
 
-goal_value = 800
+# goal_value = 800
 
 achivement_rate = round(100 * goal_value / this_month, 1)
 if achivement_rate > 100:
@@ -121,7 +123,7 @@ with col4:
     st.markdown(draw_box('전체 기업 평균', f'{mean_usage} kWh', width='100%', height=150, text_color='black', margin_bottom='0px'), unsafe_allow_html=True)
 
 with col5:
-    image_path = "https://i5.walmartimages.com/seo/Eighty-Percent-Of-Success-Is-Showing-Up-motivational-poster_ccf615bd-8b7c-4390-be4d-e0e1071044d7.08e4ca847bcfd99b8167fab994782fcf.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF"
+    image_path = "https://www.keepcalmcollection.com/cdn/shop/products/eighty-percent-of-success__66641.jpg?v=1632960458&width=990"
     st.image(image_path, use_column_width=True)
 
 ###
