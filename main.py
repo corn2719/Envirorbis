@@ -26,7 +26,7 @@ else:
     df = pd.DataFrame(data)
 
 # 최상단 제목, 날짜, 산업진흥원 로고
-title = 'moni용'
+title = '모니용'
 kst = timezone('Asia/Seoul')
 now = datetime.datetime.now()
 now = now.astimezone(kst)
