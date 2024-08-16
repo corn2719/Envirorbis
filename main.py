@@ -9,8 +9,7 @@ st.set_page_config(layout="wide", page_title="용인시산업진흥원 에너지
 
 # 사이드바에서 파일 업로드
 uploaded_file = st.sidebar.file_uploader("엑셀 파일을 업로드하세요", type=["xlsx"], )
-goal_value = st.sidebar.slider("목표값을 입력하세요", min_value=0, max_value=1000, step=10)
-
+goal_value = st.sidebar.slider("목표값을 입력하세요", min_value=0, max_value=1000, step=10, value=600)
 
 # 파일이 업로드되었는지 확인
 if uploaded_file is not None:
