@@ -27,7 +27,7 @@ def create_gauge_chart(value, min_value=0, max_value=100, title="Gauge Chart", h
         title={'text': title},
         gauge={
             'axis': {'range': [min_value, max_value]},
-            'bar': {'color': "pink"},
+            'bar': {'color': "black"},
             'steps': [
                 {'range': [min_value, max_value * 0.2], 'color': "red"},
                 {'range': [max_value * 0.2, max_value * 0.4], 'color': "orange"},
@@ -56,3 +56,70 @@ def draw_box(title, content, width='100%', height=150, border_color='#CACCCB', b
         <p style="font-size: 45px; font-weight: bold; color: {text_color}; margin: 0;">{content}</p>
     </div>
     """
+
+# 행의 수에 따라 열을 나누는 함수
+def split_data(df):
+    half = len(df) // 2
+    if len(df) % 2 != 0:
+        half += 1  # 홀수 개일 때는 첫 열에 하나 더 추가
+    left_df = df.iloc[:half]
+    right_df = df.iloc[half:].reset_index(drop=True)
+    return left_df, right_df
+
+# HTML과 CSS를 활용한 표 생성
+def generate_html_table(df):
+    left_df, right_df = split_data(df)
+    
+    html_table = """
+    <style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #dddddd;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    </style>
+    <table>
+        <tr>
+            <th>기업이름</th>
+            <th>전월</th>
+            <th>현월</th>
+            <th>기업이름</th>
+            <th>전월</th>
+            <th>현월</th>
+        </tr>
+    """
+
+    for i in range(len(left_df)):
+        html_table += "<tr>"
+        for col in left_df.columns:
+            value = left_df[col][i]
+            if col == '현월':
+                prev_value = left_df['전월'][i]
+                color = "black" if value == prev_value else "green" if value < prev_value else "red"
+                html_table += f'<td style="color: {color};">{value}</td>'
+            else:
+                html_table += f"<td>{value}</td>"
+
+        if i < len(right_df):
+            for col in right_df.columns:
+                value = right_df[col][i]
+                if col == '현월':
+                    prev_value = right_df['전월'][i]
+                    color = "black" if value == prev_value else "green" if value < prev_value else "red"
+                    html_table += f'<td style="color: {color};">{value}</td>'
+                else:
+                    html_table += f"<td>{value}</td>"
+        else:
+            html_table += "<td></td><td></td><td></td>"
+
+        html_table += "</tr>"
+
+    html_table += "</table>"
+    return html_table
